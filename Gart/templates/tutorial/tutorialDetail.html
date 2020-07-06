@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+     <video class="col-md-12 " height="500px;" controls id="wze410-video_html5_api" class="vjs-tech"
+                           preload="metadata"
+                           poster="{{ tutorial_item.poster.url }}"
+                           tabindex="-1">
+                        <source src="{{ tutorial_item.video_src }}"
+                                type="video/mp4">
+     </video>
+    <div style="padding: 10px;">
+    <h3>{{ tutorial_item.title }}</h3>
+    <p>{{ tutorial_item.info }}</p>
+    </div>
+
+{% endblock %}

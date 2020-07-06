@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+        <div class="col-md-12"
+             style="border-style: solid;border-radius:5px;background: white ;padding: 30px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);outline-style:solid;outline-offset: -10px;margin-bottom: 40px; outline-color:#30B36F;">
+            <p><i>At <strong style="text-shadow: 0 0 2px #30B36F;">G-ART COLLECTION </strong>we manufacture some unique
+                handicrafts to introduce the beauty of traditional art of Turkey and Iran to the worldwide by producing
+                and exporting some masterpieces of art.</i></p>
+        </div>
+<div class="row">
+        {% for collection_item in collection_items %}
+            <div id="studio_card" class="card col-md-3 ">
+
+                <img class="card-img-top" src="{{ collection_item.poster.url }}" height="300px" alt="Card image">
+                <div class="card-body">
+                    <h4 class="card-title">{{ collection_item.title }} </h4>
+                    <p class="card-text">{{ collection_item.short_info }} </p>
+                    <a href="{% url "collection-item-detail" collection_item.id %}"
+                       class="btn  btn-warning stretched-link">See More</a>
+                </div>
+
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".card").hover(
+                //trigger when mouse hover
+                function () {
+                    $(this).animate({
+                        marginTop: "-=0.5%",
+                        marginBottom: "+=0.5%"
+                    }, 200);
+                },
+                // trigger when mouse out
+                function () {
+                    $(this).animate({
+                        marginTop: "0%",
+                        marginBottom: "0%"
+                    }, 200);
+                }
+            )
+
+        });
+    </script>
+
+{% endblock %}

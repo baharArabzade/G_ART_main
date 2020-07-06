@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div  class="col-md-12" style="border-style: solid;border-radius:5px;background: white ;padding: 30px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);outline-style:solid;outline-offset: -10px;margin-bottom: 40px; outline-color:#23A3D7;">
+    <p><i>At <strong style="text-shadow: 0 0 2px#23A3D7;">G-ART EVENTS</strong> is always there whenever you have a smart idea for a special event! We manage everything to create a memorable event from an innovative idea.​​​​​​​</i></p>
+</div>
+<div class="row">
+{% for event_item in event_items %}
+        <div id="studio_card" class="card col-md-3 " >
+
+            <img class="card-img-top" src="{{ event_item.poster.url}}" height="300px" alt="Card image" >
+            <div class="card-body">
+              <h4 class="card-title">{{event_item.title}} </h4>
+              <p class="card-text">{{ event_item.short_info }} </p>
+                <a href="{% url "event-item-detail" event_item.id %}" class="btn  btn-warning stretched-link">See More</a>
+            </div>
+
+         </div>
+ {% endfor %}
+
+
+
+    </div>
+
+    <script>
+    $(document).ready(function (){
+        $(".card").hover(
+            //trigger when mouse hover
+            function (){
+                $(this).animate({
+                    marginTop: "-=0.5%",
+                    marginBottom: "+=0.5%"
+                },200);
+            },
+            // trigger when mouse out
+            function(){
+                $(this).animate({
+                    marginTop: "0%",
+                    marginBottom: "0%"
+                },200);
+            }
+        )
+
+    });
+    </script>
+
+{% endblock %}

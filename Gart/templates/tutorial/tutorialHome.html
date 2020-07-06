@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="col-md-12"
+         style="border-style: solid;border-radius:5px;background: white ;padding: 30px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);outline-style:solid;outline-offset: -10px;margin-bottom: 40px; outline-color:#D73D30;">
+        <p><i> At<strong style="text-shadow: 0 0 2px #D73D30;"> G-ART TUTORIALS </strong>we are accomplishing our
+            mission to share our verified knowledge by producing some high quality video tutorials.​​​​​​​
+            Design the Poster and Title of the film.</i></p></div>
+    <div class="row">
+        {% for tutorial_item in tutorial_items %}
+            <div id="studio_card" class="card col-md-3 ">
+
+                <img class="card-img-top" src="{{ tutorial_item.poster.url }}" height="300px" alt="Card image">
+                <div class="card-body">
+                    <h4 class="card-title">{{ tutorial_item.title }} </h4>
+                    <p class="card-text">{{ tutorial_item.info }} </p>
+                    <a href="{% url "tutorial-item-detail" tutorial_item.id %}" class="btn btn-warning stretched-link">See
+                        More</a>
+                </div>
+
+            </div>
+        {% endfor %}
+
+
+
+{% endblock %}

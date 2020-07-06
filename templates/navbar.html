@@ -1,0 +1,33 @@
+
+{% load static %}
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#"><img src="{% static "brand.png" %}" width="60%"></a>
+
+  <!-- Links -->
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "G_Art_Home" %}">Home</a>
+    </li>
+
+
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Activities</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="{% url "StudioHome" %}">Studio</a>
+        <a class="dropdown-item" href="{% url "TutorialoHome" %}">Tutorial</a>
+        <a class="dropdown-item" href="{% url "CollectionHome" %}">Collection</a>
+        <a class="dropdown-item" href="{% url "EventHome" %}">Event</a>
+      </div>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link" href="#">About Us</a>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link" href="#">Contact Us</a>
+    </li>
+  </ul>
+</nav>
+<br>

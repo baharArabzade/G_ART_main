@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="row" style="alignment: center;margin-top: 50px;">
+        <div class="col-md-2"></div>
+        <div class="card-body col-md-3" style="padding: 5px;background: #343A40">
+
+            <div class="row">
+                <h4 class="card-title row1" style="text-shadow: 1px 2px 2px lightslategrey; padding:10px;color: white;">
+                    <i class="fas fa-video"
+                       style=" padding-bottom:10px;color:#FEC028;font-size:50px; padding:15px;"> </i>
+                    {{ studio_item.title }}</h4>
+            </div>
+
+            <p class="card-text" style="color: white">{{ studio_item.running_time }} | {{ studio_item.genre }}</p>
+
+            <img src="{{ studio_item.poster.url }}" height="500px;" alt="Card image"
+                 style="width:100%">
+        </div>
+
+        <div id="detail_info" class="col-md-6" style="height: max-content;">
+            <ul class="nav nav-tabs" role="tablist" style="background: #f4f4f4">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#Info"
+                       style="font-size: large;color: #343A40;"><b>Info</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#cast" style="font-size: large;color: #343A40;"><b>Cast
+                        and Crew</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#thrailer"
+                       style="font-size: large;color: #343A40;"><b>Thrailer</b></a>
+                </li>
+                {% if studio_item.nomination or studio_item.award %}
+
+
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#awards" style="font-size: large;color: #343A40;"> <b>Awards</b>
+                        <i style="color:#FEC028;font-size: large  " class="fas fa-trophy"></i></a>
+                </li>
+                {% endif %}
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content" style="background:white; max-height: 100%; padding: 20px;">
+                <div id="Info" class="container tab-pane ">
+
+                    <p>{{ studio_item.info|linebreaks }}</p>
+
+                    <table class="table table-striped">
+
+                        <tbody>
+                        {% for infotable in myInfoTable %}
+                            <tr>
+                                <td><b>{{ infotable.0 }}:</b></td>
+                                <td> {{ infotable.1 }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="cast" class="container tab-pane fade"><br>
+                    {% for mycrew in myCrew %}
+                    <p><strong>{{mycrew.0}}:</strong> {{ mycrew.1 }}</p>
+
+                    {% endfor %}
+                </div>
+                <div id="thrailer" class="container tab-pane active"><br>
+                    <video class="col-md-12 " height="400px;" controls id="wze410-video_html5_api" class="vjs-tech"
+                           preload="metadata"
+                           poster={{ studio_item.poster.url }}
+                           tabindex="-1">
+                        <source src="{{ studio_item.thrailer_src }}"
+                                type="video/mp4">
+                    </video>
+                    {% if photo1 %} <h4><br></br>Photoes:</h4>{% endif %}
+                    <div class="row" >
+
+                        {% if photo1 %}<img src="{{ studio_item.photo1.url }} " class="col-md-3">{% endif %}
+                        {% if photo2 %}<img src="{{ studio_item.photo2.url }} " class="col-md-3">{% endif %}
+                        {% if photo3 %}<img src="{{ studio_item.photo3.url }} " class="col-md-3">){% endif %}
+
+                    </div>
+                </div>
+
+                <div id="awards" class="container tab-pane fade">
+                    {% if studio_item.nomination%}
+                        <h4>Nominations:</h4>
+                        {% for nomination in myNomination %}
+                            <a href="{{ nomination.1 }}">{{ nomination.0 }}</a><br>
+                        {% endfor %}
+                    {% endif %}
+                    {% if studio_item.award %}
+                    <h4>Awards:</h4>
+                        {% for award in myAward %}
+                            <a href="{{ award.1 }}">{{ award.0 }}</a><br>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

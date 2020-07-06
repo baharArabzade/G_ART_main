@@ -1,0 +1,39 @@
+#studio_card{
+    padding:15px;
+    outline-offset: -10px;
+    outline-color:gainsboro;
+    outline-style:solid ;
+    border-style:solid ;width: 375px;
+    border-width: 5px;
+    border-color: #f4f4f4;
+}
+
+#studio_card:hover{
+    -webkit-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75);
+    -moz-box-shadow:-1px 9px 40px -12px rgba(0,0,0,0.75);
+    box-shadow:-1px 9px 40px -12px rgba(0,0,0,0.75);
+
+}
+
+#no_top_border{
+
+    border-top-style: none;
+}
+
+* {box-sizing: border-box;}
+
+.img-magnifier-container {
+  position: relative;
+}
+
+
+
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 100px;
+  height: 100px;
+}
