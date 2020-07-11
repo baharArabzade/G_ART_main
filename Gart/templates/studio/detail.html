@@ -1,14 +1,109 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+    <style>
+
+        #myImg {
+
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #myImg:hover {
+            opacity: 0.7;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+        }
+
+        /* Modal Content (image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 60%;
+        }
+
+        /* Caption of Modal Image */
+
+
+        /* Add Animation */
+        .modal-content, #caption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @-webkit-keyframes zoom {
+            from {
+                -webkit-transform: scale(0)
+            }
+            to {
+                -webkit-transform: scale(1)
+            }
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+            to {
+                transform: scale(1)
+            }
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 100% Image Width on Smaller Screens */
+        @media only screen and (max-width: 700px) {
+            .modal-content {
+                width: 100%;
+            }
+        }
+    </style>
+
     <div class="row" style="alignment: center;margin-top: 50px;">
         <div class="col-md-2"></div>
         <div class="card-body col-md-3" style="padding: 5px;background: #343A40">
 
             <div class="row">
                 <h4 class="card-title row1" style="text-shadow: 1px 2px 2px lightslategrey; padding:10px;color: white;">
+                    {% if movie %}
                     <i class="fas fa-video"
                        style=" padding-bottom:10px;color:#FEC028;font-size:50px; padding:15px;"> </i>
+                    {% endif %}
+                    {%  if music_video %}
+                        <i class="fas fa-music"
+                       style=" padding-bottom:10px;color:#FEC028;font-size:50px; padding:15px;"> </i>
+                    {% endif %}
                     {{ studio_item.title }}</h4>
             </div>
 
@@ -32,14 +127,21 @@
                     <a class="nav-link active" data-toggle="tab" href="#thrailer"
                        style="font-size: large;color: #343A40;"><b>Thrailer</b></a>
                 </li>
-                {% if studio_item.nomination or studio_item.award %}
+                {% if studio_photo_list %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#photoes" style="font-size: large;color: #343A40;">
+                            <b>Photoes</b></a>
+                    </li>
 
-
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#awards" style="font-size: large;color: #343A40;"> <b>Awards</b>
-                        <i style="color:#FEC028;font-size: large  " class="fas fa-trophy"></i></a>
-                </li>
                 {% endif %}
+                {% if studio_item.nomination or studio_item.award %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#awards" style="font-size: large;color: #343A40;">
+                            <b>Awards</b>
+                            <i style="color:#FEC028;font-size: large  " class="fas fa-trophy"></i></a>
+                    </li>
+                {% endif %}
+
             </ul>
 
             <!-- Tab panes -->
@@ -62,37 +164,54 @@
                 </div>
                 <div id="cast" class="container tab-pane fade"><br>
                     {% for mycrew in myCrew %}
-                    <p><strong>{{mycrew.0}}:</strong> {{ mycrew.1 }}</p>
+                        <p><strong>{{ mycrew.0 }}:</strong> {{ mycrew.1 }}</p>
 
                     {% endfor %}
+                </div>
+                <div id="photoes" class="container tab-pane fade"><br>
+                    <h3 style="text-shadow: 0 0 3px grey;"><i>Gallery:</i></h3><br>
+                    <div class="row">
+                        <div class="gallery">
+                            {% for photo in studio_photo_list %}
+
+                                <img id="myImg" src="{{ photo.photo.url }}"  onclick="show_modal(this.src)" class="col-md-3" height="100px;  "
+                                     style="margin-bottom: 10px;">
+                            {% endfor %}
+
+
+
+                            <!-- The Modal -->
+                            <div id="myModal" class="modal">
+                                <span class="close">&times;</span>
+                                <img class="modal-content" id="img01">
+                                <div id="caption"></div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
                 </div>
                 <div id="thrailer" class="container tab-pane active"><br>
                     <video class="col-md-12 " height="400px;" controls id="wze410-video_html5_api" class="vjs-tech"
                            preload="metadata"
                            poster={{ studio_item.poster.url }}
-                           tabindex="-1">
+                                   tabindex="-1">
                         <source src="{{ studio_item.thrailer_src }}"
                                 type="video/mp4">
                     </video>
-                    {% if photo1 %} <h4><br></br>Photoes:</h4>{% endif %}
-                    <div class="row" >
 
-                        {% if photo1 %}<img src="{{ studio_item.photo1.url }} " class="col-md-3">{% endif %}
-                        {% if photo2 %}<img src="{{ studio_item.photo2.url }} " class="col-md-3">{% endif %}
-                        {% if photo3 %}<img src="{{ studio_item.photo3.url }} " class="col-md-3">){% endif %}
-
-                    </div>
                 </div>
 
                 <div id="awards" class="container tab-pane fade">
-                    {% if studio_item.nomination%}
+                    {% if studio_item.nomination %}
                         <h4>Nominations:</h4>
                         {% for nomination in myNomination %}
                             <a href="{{ nomination.1 }}">{{ nomination.0 }}</a><br>
                         {% endfor %}
                     {% endif %}
                     {% if studio_item.award %}
-                    <h4>Awards:</h4>
+                        <h4>Awards:</h4>
                         {% for award in myAward %}
                             <a href="{{ award.1 }}">{{ award.0 }}</a><br>
                         {% endfor %}
@@ -103,5 +222,29 @@
         </div>
 
     </div>
+
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+         function show_modal(_src) {
+            modal.style.display = "block";
+            modalImg.src = _src;
+
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>
 
 {% endblock %}

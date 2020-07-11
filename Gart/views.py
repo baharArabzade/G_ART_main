@@ -1,13 +1,7 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.template import loader
-from django.views import View
-
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404, render
 
-from .models import Studio_item, Tutorial_item, Collection_item, Event_item
+from .models import Studio_item, Tutorial_item, Collection_item, Event_item, Studio_Photo
 
 
 class HomeView(TemplateView):
@@ -31,6 +25,7 @@ class Studio_Detail_View(TemplateView):
 
         studio_item_id = kwargs.get('studio_item_id')
         studio_item = get_object_or_404(Studio_item, pk=studio_item_id)
+        studio_photo_list = Studio_Photo.objects.all().filter(studio_item=studio_item_id)
         crew = []
         myCrew = []
         myInfoTable = []
@@ -39,9 +34,6 @@ class Studio_Detail_View(TemplateView):
         award = []
         myNomination = []
         myAward = []
-        photo1 = 0
-        photo2 = 0
-        photo3 = 0
 
         if (studio_item.info_table):
             infotable = studio_item.info_table.split("\r\n")
@@ -51,12 +43,7 @@ class Studio_Detail_View(TemplateView):
             award = studio_item.award.split("\r\n")
         if (studio_item.crew):
             crew = studio_item.crew.split("\r\n")
-        if (studio_item.photo1):
-            photo1 = 1
-        if (studio_item.photo2):
-            photo2 = 1
-        if (studio_item.photo3):
-            photo2 = 2
+
         for i in range(0, len(infotable)):
             str1 = infotable[i].split("=")
             myInfoTable.append([str1[0], str1[1]])
@@ -69,16 +56,24 @@ class Studio_Detail_View(TemplateView):
         for i in range(0, len(crew)):
             str4 = crew[i].split("=")
             myCrew.append([str4[0], str4[1]])
+
+        movie=0;
+        music_video=0;
+        if (studio_item.type=="movie"):
+            movie=1
+        if(studio_item.type=="music video"):
+            music_video=1
         self.extra_context = {
-            'photo1': photo1,
-            'photo2': photo2,
-            'photo3': photo3,
+
             'studio_item_id': studio_item_id,
             'studio_item': studio_item,
             'myInfoTable': myInfoTable,
             'myNomination': myNomination,
             'myAward': myAward,
             'myCrew': myCrew,
+            'studio_photo_list':studio_photo_list,
+            'movie':movie,
+            'music_video':music_video,
         }
 
         return render(request, 'studio/detail.html', self.get_context_data())
