@@ -1,18 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
 
-     <video class="col-md-12 " height="500px;" controls id="wze410-video_html5_api" class="vjs-tech"
-                           preload="metadata"
-                           poster="{{ tutorial_item.poster.url }}"
-                           tabindex="-1">
-                        <source src="{{ tutorial_item.video_src }}"
-                                type="video/mp4">
-     </video>
+{% block content %}
+    <div class="row" >
+    <div class="col-md-3" >
+        <div class="card ">
+            <div  class="card-header">
+               <i class="fa fa-note"></i> {{ tutorial_item.title }}</div>
+
+        <div class="card-body " style="min-height: 452px;">
+            {% for info in myMaininfo %}
+                <p><b>{{info.0}}:</b> {{ info.1 }}</p>
+            {% endfor %}
+            {% if tutorial_item.material_file %}
+                <a href="{{ tutorial_item.material_file.url }}" class="btn btn-primary"> <i class="fas fa-download"></i> DownLoad Materials </a>
+            {% endif %}
+            <p></p>
+        </div>
+     </div>
+    </div>
+
+    <video class="col-md-9 "   height="500px;" controls id="wze410-video_html5_api" class="vjs-tech"
+           preload="metadata"
+           poster="{{ tutorial_item.poster.url }}"
+           tabindex="-1">
+        <source src="{{ tutorial_item.video_src }}"
+                type="video/mp4">
+    </video>
+    </div>
     <div style="padding: 10px;">
-    <h3>{{ tutorial_item.title }}</h3>
-    <p>{{ tutorial_item.info }}</p>
-    <p> <a href='{{ tutorial_item.material_file }}'>download</a></p>
+        <h3>{{ tutorial_item.title }}</h3>
+        <h5>{{ tutorial_item.info|linebreaks }}</h5>
+
     </div>
 
 {% endblock %}

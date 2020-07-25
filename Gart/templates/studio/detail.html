@@ -1,98 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <style>
-
-        #myImg {
-
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        #myImg:hover {
-            opacity: 0.7;
-        }
-
-        /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0); /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
-        }
-
-        /* Modal Content (image) */
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 60%;
-        }
-
-        /* Caption of Modal Image */
 
 
-        /* Add Animation */
-        .modal-content, #caption {
-            -webkit-animation-name: zoom;
-            -webkit-animation-duration: 0.6s;
-            animation-name: zoom;
-            animation-duration: 0.6s;
-        }
-
-        @-webkit-keyframes zoom {
-            from {
-                -webkit-transform: scale(0)
-            }
-            to {
-                -webkit-transform: scale(1)
-            }
-        }
-
-        @keyframes zoom {
-            from {
-                transform: scale(0)
-            }
-            to {
-                transform: scale(1)
-            }
-        }
-
-        /* The Close Button */
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* 100% Image Width on Smaller Screens */
-        @media only screen and (max-width: 700px) {
-            .modal-content {
-                width: 100%;
-            }
-        }
-    </style>
 
     <div class="row" style="alignment: center;margin-top: 50px;">
-        <div class="col-md-2"></div>
-        <div class="card-body col-md-3" style="padding: 5px;background: #343A40">
+        <div class="col-md-1"></div>
+        <div id="here" class="card-body col-md-4" style="padding: 5px;background: #343A40 ; border-radius: 2px;min-height: 500px;">
 
             <div class="row">
                 <h4 class="card-title row1" style="text-shadow: 1px 2px 2px lightslategrey; padding:10px;color: white;">
@@ -109,11 +23,10 @@
 
             <p class="card-text" style="color: white">{{ studio_item.running_time }} | {{ studio_item.genre }}</p>
 
-            <img src="{{ studio_item.poster.url }}" height="500px;" alt="Card image"
-                 style="width:100%">
+            <img src="{{ studio_item.poster.url }}" width="100%" alt="Card image">
         </div>
 
-        <div id="detail_info" class="col-md-6" style="height: max-content;">
+        <div id="detail_info" class="col-md-6" >
             <ul class="nav nav-tabs" role="tablist" style="background: #f4f4f4">
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#Info"
@@ -145,7 +58,7 @@
             </ul>
 
             <!-- Tab panes -->
-            <div class="tab-content" style="background:white; max-height: 100%; padding: 20px;">
+            <div class="tab-content" style="background:white; min-height: 500px; padding: 20px;">
                 <div id="Info" class="container tab-pane ">
 
                     <p>{{ studio_item.info|linebreaks }}</p>
@@ -171,12 +84,14 @@
                 <div id="photoes" class="container tab-pane fade"><br>
                     <h3 style="text-shadow: 0 0 3px grey;"><i>Gallery:</i></h3><br>
                     <div class="row">
-                        <div class="gallery">
+                        <div class="gallery"><div class="row">
                             {% for photo in studio_photo_list %}
 
                                 <img id="myImg" src="{{ photo.photo.url }}"  onclick="show_modal(this.src)" class="col-md-3" height="100px;  "
                                      style="margin-bottom: 10px;">
+
                             {% endfor %}
+                        </div>
 
 
 
@@ -200,6 +115,7 @@
                         <source src="{{ studio_item.thrailer_src }}"
                                 type="video/mp4">
                     </video>
+                    <p> {{ studio_item.thrailer_text|linebreaks }}</p>
 
                 </div>
 
